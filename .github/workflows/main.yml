@@ -22,11 +22,14 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
     - name: Install dependencies
-    - run: npm ci
+      run: npm ci
     - name: Install Playwright Browsers
-    - run: npm playwright Install --with-dependencies
+      run: npm playwright Install --with-deps
     - name: Run Playwright test
-    - run: npx playwright test
+      run: npx playwright test
+    - uses: actions/upload-artifact@v4
+      if: always()
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      name: playwright-report
+      path: playwright-report
+      retention-days: 30
